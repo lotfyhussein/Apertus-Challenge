@@ -32,6 +32,10 @@ class DebayerFilter
     unsigned char * blueChannel = new unsigned char[(4096 * 3072) /4 ];
     unsigned char * blueChannelP = blueChannel;
 
+    unsigned char * coloredImage = new unsigned char[(4096 * 3072) * 3];
+    unsigned char * coloredImageP = coloredImage;
+
+
 
 public:
 
@@ -41,6 +45,9 @@ public:
     void Green0ChannelToPPM();
     void Green1ChannelToPPM();
     void BlueChannelToPPM();
+    void CFA();
+    void ColoredToPPM();
+
 };
 
 #endif

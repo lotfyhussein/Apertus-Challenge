@@ -12,5 +12,13 @@ int main(int argc, char const *argv[])
     string fileName = argv[1];
     DebayerFilter RawImage(fileName);
     RawImage.SeparateChannels();
+    RawImage.RedChannelToPPM();
+    RawImage.Green0ChannelToPPM();
+    RawImage.Green1ChannelToPPM();
+    RawImage.BlueChannelToPPM();
+    RawImage.CFA();
+    RawImage.ColoredToPPM();
+    cout << "Done" <<endl;
+
     return 0;
 }

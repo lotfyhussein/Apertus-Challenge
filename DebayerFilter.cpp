@@ -101,6 +101,7 @@ void DebayerFilter::SeparateChannels()
     Green0ChannelToPPM();
     Green1ChannelToPPM();
     BlueChannelToPPM();
+   
 
 }
 
@@ -170,6 +171,52 @@ void DebayerFilter::BlueChannelToPPM()
 
 }
 
+void DebayerFilter::CFA()
+{
+    int j;
+    for (long  i = 0; i < (4096 * 3072); i += 2)
+    {
+        j = i * 3;
+        int row = i / WIDTH;
+      if ((i % (WIDTH *2)) < WIDTH) 
+        {
+            coloredImageP[j] = EightBitsBUfferP[i];
+            coloredImageP[j + 1] = EightBitsBUfferP[i + 1];
+            coloredImageP[j + 2] = EightBitsBUfferP[i + WIDTH + 1];
+            coloredImageP[j + 3] = EightBitsBUfferP[i];
+            coloredImageP[j + 4] = EightBitsBUfferP[i + 1];
+            coloredImageP[j + 5] = EightBitsBUfferP[i + WIDTH + 1];
+        } 
 
+        else 
+        {
+            coloredImageP[j] = EightBitsBUfferP[i - WIDTH];
+            coloredImageP[j + 1] = EightBitsBUfferP[i];
+            coloredImageP[j + 2] = EightBitsBUfferP[i + 1];
+            coloredImageP[j + 3] = EightBitsBUfferP[i - WIDTH];
+            coloredImageP[j + 4] = EightBitsBUfferP[i];
+            coloredImageP[j + 5] = EightBitsBUfferP[i + 1];
+        }
+    }
+
+
+}
+
+void DebayerFilter::ColoredToPPM()
+{
+    std::ofstream outfile("colored.ppm");
+
+        outfile << "P3\n4096 3072\n255\n";
+        for(long i = 0; i < 3 * (4096 * 3072); i += 3)
+        {
+            if(i % WIDTH == 0 && i > 0)
+            {
+                outfile << "\n";
+            }
+
+            outfile << (int)coloredImageP[i] << " " << (int)coloredImageP[i+1] << " " << (int)coloredImageP[i+2] << " ";
+        }    
+    
+}
 
 
